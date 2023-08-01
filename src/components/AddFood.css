@@ -1,0 +1,19 @@
+.add_food__container {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.add_food__container input {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.add_food__quantity_field {
+    width: 15%;
+}
+
+.add_food__buttons {
+    display: flex;
+    gap: 5px;
+}

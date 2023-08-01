@@ -27,6 +27,7 @@ const FOOD_MOCK = [
 export function useFoodList() {
 
     const [foodList, setFoodList] = useState([])
+    const [enableCreation, setEnableCreation] = useState(false) 
 
     useEffect(() => {
         setFoodList(FOOD_MOCK)
@@ -49,10 +50,27 @@ export function useFoodList() {
         setFoodList(mapped)
     }
 
+    const switchCreationMode = () => {
+        setEnableCreation((status) => { return !status })
+    }
+
+    const addFood = ({ name, quantity }) => {
+        const lastIndex = foodList.at(foodList.length - 1).id
+        const newFood = {
+            id: lastIndex + 1,
+            name,
+            quantity
+        }
+        setFoodList(current => [...current, newFood])
+    }
+
     return {
         foodList,
         existEmptyItems,
+        enableCreation,
         deleteEmptyItems,
-        markItemToDelete
+        markItemToDelete,
+        switchCreationMode,
+        addFood
     }
 } 

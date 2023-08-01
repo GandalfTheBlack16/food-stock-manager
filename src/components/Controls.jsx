@@ -2,12 +2,13 @@ import './Controls.css'
 
 export function Controls(props) {
 
-    // eslint-disable-next-line react/prop-types
-    const { existEmptyItems, deleteEmptyItems } = props
+    const { existEmptyItems, deleteEmptyItems, enableCreation } = props
 
     return (
         <div className="controls__container">
-            <button>New Item</button>
+            <button
+                onClick={enableCreation}
+            >New Item</button>
             <button
                 disabled={!existEmptyItems}
                 onClick={deleteEmptyItems}

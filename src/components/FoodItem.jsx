@@ -4,7 +4,6 @@ import { useFoodItem } from '../hooks/useFoodItem';
 
 export function FoodItem(props) {
 
-    // eslint-disable-next-line react/prop-types
     const { foodId, foodName, foodQuantity, outOfStock, onDeleteItem } = props;
 
     const {
