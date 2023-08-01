@@ -1,0 +1,7 @@
+.food_list__container {
+    list-style: none;
+    border: .2px solid #ffffffa6;
+    border-radius: 20px;
+    padding: 1rem;
+    background-color: #16161659;
+}
