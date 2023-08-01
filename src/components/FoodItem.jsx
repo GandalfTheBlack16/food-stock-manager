@@ -5,17 +5,17 @@ import { useFoodItem } from '../hooks/useFoodItem';
 export function FoodItem(props) {
 
     // eslint-disable-next-line react/prop-types
-    const { foodName, foodQuantity, outOfStock } = props;
+    const { foodId, foodName, foodQuantity, outOfStock, onDeleteItem } = props;
 
     const {
         disabled,
         quantity,
         deleteItem
-    } = useFoodItem({ outOfStock, defaultQuantity: foodQuantity }) 
+    } = useFoodItem({ id: foodId, outOfStock, defaultQuantity: foodQuantity, onDeleteItem }) 
 
     return (
       <div className='food_item__container'>
-        <div className={disabled && 'food_item__disabled'}>
+        <div className={disabled ? 'food_item__disabled': ''}>
             <span>{ foodName } x { quantity }</span>
         </div>
         <div className='food_item__buttons'>

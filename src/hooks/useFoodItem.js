@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export function useFoodItem({ outOfStock, defaultQuantity }) {
+export function useFoodItem({ id, outOfStock, defaultQuantity, onDeleteItem }) {
 
     // eslint-disable-next-line no-undef
     const [ disabled, setDisabled ] = useState(outOfStock)
@@ -9,6 +9,7 @@ export function useFoodItem({ outOfStock, defaultQuantity }) {
     const deleteItem = () => {
         setDisabled(true)
         setQuantity(0)
+        onDeleteItem(id)
     }
 
     return {

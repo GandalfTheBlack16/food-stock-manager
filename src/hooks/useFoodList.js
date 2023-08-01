@@ -32,7 +32,27 @@ export function useFoodList() {
         setFoodList(FOOD_MOCK)
     }, [])
 
+    const existEmptyItems = foodList.some(item => item.quantity === 0)
+
+    const deleteEmptyItems = () => {
+        const filtered = foodList.filter(item => item.quantity > 0)
+        setFoodList(filtered)
+    }
+
+    const markItemToDelete = (id) => {
+        const mapped = foodList.map(item => {
+            if (item.id === id){
+                item.quantity = 0
+            }
+            return item
+        })
+        setFoodList(mapped)
+    }
+
     return {
-        foodList
+        foodList,
+        existEmptyItems,
+        deleteEmptyItems,
+        markItemToDelete
     }
 } 
