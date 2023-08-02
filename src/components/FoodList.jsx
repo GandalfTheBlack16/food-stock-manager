@@ -12,7 +12,8 @@ export function FoodList() {
     return (
         <>
             <Controls
-                enableCreation={switchCreationMode} 
+                enableCreation={enableCreation}
+                onsSitchCreationMode={switchCreationMode}
                 existEmptyItems={existEmptyItems}
                 deleteEmptyItems={deleteEmptyItems}
             />
