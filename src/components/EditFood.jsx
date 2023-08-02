@@ -27,6 +27,7 @@ export function EditFood(props) {
                 <input 
                     type="text" 
                     placeholder='Name'
+                    className='edit_food__name_field'
                     value={name}
                     onChange={onNameChange}
                 />
