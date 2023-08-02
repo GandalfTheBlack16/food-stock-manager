@@ -64,6 +64,13 @@ export function useFoodList() {
         setFoodList(current => [...current, newFood])
     }
 
+    const editFood = ({ id, name, quantity }) => {
+        const index = foodList.findIndex(item => item.id === id)
+        const newList = [...foodList]
+        newList[index] = { id, name, quantity }
+        setFoodList(newList)
+    }
+
     return {
         foodList,
         existEmptyItems,
@@ -71,6 +78,7 @@ export function useFoodList() {
         deleteEmptyItems,
         markItemToDelete,
         switchCreationMode,
-        addFood
+        addFood,
+        editFood
     }
 } 

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export function useFoodForm ({ onSubmit }){
-    const [name, setName] = useState('')
-    const [quantity, setQuantity] = useState('')
+export function useFoodForm ({ onSubmit, currName, currQuantity }){
+    const [name, setName] = useState(currName ?? '')
+    const [quantity, setQuantity] = useState(currQuantity ?? '')
 
     const onNameChange = (event) => {
         setName(event.target.value)

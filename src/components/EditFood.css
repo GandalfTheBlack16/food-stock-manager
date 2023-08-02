@@ -1,0 +1,25 @@
+.edit_food__container {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.edit_food__fields {
+    display: flex;
+    gap: 1rem;
+}
+
+.edit_food__quantity_field {
+    width: 15%;
+}
+
+.edit_food__fields input {
+    padding: 0 10px;
+    font-size: medium;
+}
+
+.edit_food__buttons {
+    display: flex;
+    gap: 1em;
+}

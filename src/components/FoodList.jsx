@@ -7,7 +7,7 @@ import { AddFood } from "./AddFood";
 
 export function FoodList() {
     
-    const { foodList, existEmptyItems, enableCreation, deleteEmptyItems, markItemToDelete, addFood, switchCreationMode } = useFoodList()
+    const { foodList, existEmptyItems, enableCreation, deleteEmptyItems, markItemToDelete, addFood, switchCreationMode, editFood } = useFoodList()
    
     return (
         <>
@@ -30,6 +30,7 @@ export function FoodList() {
                                     foodQuantity={item.quantity}
                                     outOfStock={item.quantity < 1}
                                     onDeleteItem={markItemToDelete}
+                                    onEditItem={editFood}
                                 />
                             </li>
                         })
