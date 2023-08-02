@@ -25,5 +25,15 @@
 
 .edit_food__buttons {
     display: flex;
-    gap: 1em;
+    gap: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .food_item__container {
+        padding: .5rem;
+    }
+
+    .edit_food__field {
+        gap: 10px;
+    }
 }
