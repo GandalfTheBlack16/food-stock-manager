@@ -1,36 +1,29 @@
 import { useEffect } from "react"
 import { useState } from "react"
+import { useHttpRequest } from "./useHttpRequest"
 
-const FOOD_MOCK = [
-    {
-        id: 1,
-        name: 'Burguer',
-        quantity: 15
-    },
-    {
-        id: 2,
-        name: 'Pizza',
-        quantity: 1
-    },
-    {
-        id: 3,
-        name: 'Steaks',
-        quantity: 15
-    },
-    {
-        id: 4,
-        name: 'Squeed',
-        quantity: 0
-    },
-]
+const API_ENDPOINT = `${import.meta.env.VITE_API_BASE_URI}/api/foods`
 
 export function useFoodList() {
 
     const [foodList, setFoodList] = useState([])
     const [enableCreation, setEnableCreation] = useState(false) 
 
+    const {
+        sendRequest: fetchFoodsRequest,
+        error: fetchFoodsError
+    } = useHttpRequest({ url: API_ENDPOINT, method: 'GET' })
+
+    const {
+        sendRequest: addFoodRequest,
+        error: addFoodError
+    } = useHttpRequest({ url: API_ENDPOINT, method: 'POST', headers: { 'Content-Type': 'application/json' } })
+
     useEffect(() => {
-        setFoodList(FOOD_MOCK)
+        fetchFoodsRequest()
+        .then(foodList => {
+            setFoodList(foodList)
+        })
     }, [])
 
     const existEmptyItems = foodList.some(item => item.quantity === 0)
@@ -54,14 +47,9 @@ export function useFoodList() {
         setEnableCreation((status) => { return !status })
     }
 
-    const addFood = ({ name, quantity }) => {
-        const lastIndex = foodList.at(foodList.length - 1).id
-        const newFood = {
-            id: lastIndex + 1,
-            name,
-            quantity
-        }
-        setFoodList(current => [...current, newFood])
+    const addFood = async ({ name, quantity }) => {
+        const foodCreated = await addFoodRequest({ name, quantity })
+        setFoodList(current => [...current, foodCreated])
     }
 
     const editFood = ({ id, name, quantity }) => {
