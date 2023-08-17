@@ -7,7 +7,25 @@ import { AddFood } from "./AddFood";
 
 export function FoodList() {
     
-    const { foodList, existEmptyItems, enableCreation, deleteEmptyItems, markItemToDelete, addFood, switchCreationMode, editFood } = useFoodList()
+    const { foodList, existEmptyItems, enableCreation, deleteEmptyItems, markItemToDelete, addFood, switchCreationMode, editFood, loading } = useFoodList()
+
+    const renderList = loading ? 
+        <span class="loader"></span> : (
+            foodList.length < 1 ? 
+                <h3>There is no food stored</h3> :
+                foodList.map(item => {
+                    return <li key={item.id}>
+                        <FoodItem
+                            foodId={item.id} 
+                            foodName={item.name}
+                            foodQuantity={item.quantity}
+                            outOfStock={item.quantity < 1}
+                            onDeleteItem={markItemToDelete}
+                            onEditItem={editFood}
+                        />
+                    </li>
+                })
+        )
    
     return (
         <>
@@ -19,22 +37,7 @@ export function FoodList() {
             />
             <div>
                 <ul className="food_list__container">
-                    {
-                    foodList.length < 1 ? 
-                        <h3>There is no food stored</h3> :
-                        foodList.map(item => {
-                            return <li key={item.id}>
-                                <FoodItem
-                                    foodId={item.id} 
-                                    foodName={item.name}
-                                    foodQuantity={item.quantity}
-                                    outOfStock={item.quantity < 1}
-                                    onDeleteItem={markItemToDelete}
-                                    onEditItem={editFood}
-                                />
-                            </li>
-                        })
-                    }
+                    { renderList }
                     {
                         enableCreation && 
                         <li>
