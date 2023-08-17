@@ -7,28 +7,34 @@ const API_ENDPOINT = `${import.meta.env.VITE_API_BASE_URI}/api/foods`
 export function useFoodList() {
 
     const [foodList, setFoodList] = useState([])
-    const [enableCreation, setEnableCreation] = useState(false) 
+    const [enableCreation, setEnableCreation] = useState(false)
+    const [loading, setLoading] = useState(false) 
 
     const {
-        sendRequest: fetchFoodsRequest,
-        error: fetchFoodsError
-    } = useHttpRequest({ url: API_ENDPOINT, method: 'GET' })
-
-    const {
-        sendRequest: addFoodRequest,
-        error: addFoodError
-    } = useHttpRequest({ url: API_ENDPOINT, method: 'POST', headers: { 'Content-Type': 'application/json' } })
+        sendRequest,
+        error: requestError
+    } = useHttpRequest()
 
     useEffect(() => {
-        fetchFoodsRequest()
+        setLoading(true)
+        sendRequest(API_ENDPOINT, 'GET')
         .then(foodList => {
+            if (!foodList) {
+                setFoodList([])
+                return () => {}
+            } 
             setFoodList(foodList)
+            setLoading(false)
         })
     }, [])
 
     const existEmptyItems = foodList.some(item => item.quantity === 0)
 
     const deleteEmptyItems = () => {
+        const toDelete = foodList.filter(item => item.quantity === 0)
+        toDelete.forEach((item) => {
+            sendRequest(`${API_ENDPOINT}/${item.id}`, 'DELETE')
+        })
         const filtered = foodList.filter(item => item.quantity > 0)
         setFoodList(filtered)
     }
@@ -48,15 +54,18 @@ export function useFoodList() {
     }
 
     const addFood = async ({ name, quantity }) => {
-        const foodCreated = await addFoodRequest({ name, quantity })
+        const foodCreated = await sendRequest(API_ENDPOINT, 'POST', { 'Content-type': 'application/json' }, { name, quantity })
         setFoodList(current => [...current, foodCreated])
     }
 
-    const editFood = ({ id, name, quantity }) => {
-        const index = foodList.findIndex(item => item.id === id)
-        const newList = [...foodList]
-        newList[index] = { id, name, quantity }
-        setFoodList(newList)
+    const editFood = async ({ id, name, quantity }) => {
+        const foodUpdated = await sendRequest(`${API_ENDPOINT}/${id}`, 'PUT', { 'Content-type': 'application/json' }, { name, quantity })
+        if (foodUpdated) {
+            const index = foodList.findIndex(item => item.id === id)
+            const newList = [...foodList]
+            newList[index] = { id, name, quantity }
+            setFoodList(newList)
+        }
     }
 
     return {
@@ -67,6 +76,7 @@ export function useFoodList() {
         markItemToDelete,
         switchCreationMode,
         addFood,
-        editFood
+        editFood,
+        loading
     }
 } 

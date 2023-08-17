@@ -1,19 +1,12 @@
 import { useState } from "react"
 
-export function useHttpRequest ({ url, method, headers }) {
+export function useHttpRequest () {
 
-    const [ loading, setLoading ] = useState(false)
     const [ error, setError ] = useState('')
-
-    const baseOptions = {
-        method,
-        headers,
-        mode: 'cors'
-    }
-
-    const sendRequest = async (payload) => {
+    
+    const sendRequest = async (url, method, headers, payload) => {
         try {
-            setLoading(true)
+            const baseOptions = { method, headers, mode: 'cors' }
             const options = payload ? { ...baseOptions, body: JSON.stringify(payload) } : baseOptions
             const response = await fetch(url, options)
             if (!response.ok) {
@@ -22,15 +15,12 @@ export function useHttpRequest ({ url, method, headers }) {
             return await response.json()
         } catch (error) {
             setError(error)
-            return []
-        } finally {
-            setLoading(false)
-        }
+            return null
+        } 
     }
 
     return {
         sendRequest,
-        loading,
         error
     }
 }
