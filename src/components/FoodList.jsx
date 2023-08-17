@@ -18,10 +18,10 @@ export function FoodList() {
                 deleteEmptyItems={deleteEmptyItems}
             />
             <div>
-                {foodList.length < 1 ? 
-                <h3>There is no food stored</h3> :
                 <ul className="food_list__container">
                     {
+                    foodList.length < 1 ? 
+                        <h3>There is no food stored</h3> :
                         foodList.map(item => {
                             return <li key={item.id}>
                                 <FoodItem
@@ -44,7 +44,7 @@ export function FoodList() {
                             />
                         </li>
                     }
-                </ul>}
+                </ul>
             </div>
         </>
     )
